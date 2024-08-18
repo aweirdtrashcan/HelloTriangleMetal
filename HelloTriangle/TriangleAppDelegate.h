@@ -6,21 +6,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MetalKit/MetalKit.h>
 #import <Cocoa/Cocoa.h>
 
 #import "EngineRenderer.h"
-#include "RendererWindow.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TriangleAppDelegate : NSObject<NSApplicationDelegate, MTKViewDelegate>
 {
-    RendererWindow* _window;
+    NSWindow* _window;
     id<MTLDevice> _metalDevice;
+    MTKView* _metalView;
     EngineRenderer* _renderer;
 }
-
 
 @end
 

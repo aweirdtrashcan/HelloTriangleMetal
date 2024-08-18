@@ -63,8 +63,9 @@
     return shaderText;
 }
 
--(void) draw:(MTKView *)view {
+-(void) draw:(MTKView*) view {
     id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+    
     MTLRenderPassDescriptor* renderPass = [view currentRenderPassDescriptor];
     id<MTLRenderCommandEncoder> encoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPass];
     
@@ -72,9 +73,7 @@
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3 instanceCount:1 baseInstance:0];
     
     [encoder endEncoding];
-    [commandBuffer presentDrawable:[view currentDrawable]];
+    [commandBuffer presentDrawable: [view currentDrawable]];
     [commandBuffer commit];
-    
-    //NSLog(@"Finished rendering");
 }
 @end

@@ -14,23 +14,26 @@
 {
     NSRect rect = NSMakeRect(100, 100, 800, 600);
     
-    _window = [[RendererWindow alloc] initWithRect:rect];
-    
     _metalDevice = MTLCreateSystemDefaultDevice();
     
-    //_metalView = [[MTKView alloc] initWithFrame:rect device:_metalDevice];
+    _window = [[NSWindow alloc] initWithContentRect:rect styleMask:NSWindowStyleMaskClosable | NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
+    
+    _metalView = [[MTKView alloc] initWithFrame:rect device:_metalDevice];
     
     NSString* name = [_metalDevice name];
     
     NSLog(@"Found metal device %@", name);
     
-    //[_metalView setDelegate:self];
-    //[_metalView setColorPixelFormat:MTLPixelFormatBGRA8Unorm_sRGB];
-    //[_metalView setClearColor:MTLClearColorMake(1.0, 0.0, 0.0, 1.0)];
-    //[_metalView setPreferredFramesPerSecond:10000];
+    [_window setTitle:@"Stimply Engine Metal Test"];
+    [_window makeKeyAndOrderFront:nil];
+    [_window setIsVisible:YES];
+    [_window setContentView:_metalView];
     
-    [[_window _window] setTitle:@"Stimply Engine Metal Test"];
-    [[_window _window] makeKeyAndOrderFront:nil];
+    [_metalView setColorPixelFormat:MTLPixelFormatBGRA8Unorm_sRGB];
+    [_metalView setDelegate:self];
+    //[_metalView setClearColor:MTLClearColorMake(1.0, 0.0, 0.0, 1.0)];
+    // High limit because it'll be limited to the monitor's refresh rate anyways.
+    [_metalView setPreferredFramesPerSecond: 10000];
     
     _renderer = [[EngineRenderer alloc] initWithDevice:_metalDevice];
     
@@ -52,11 +55,11 @@
 }
 
 - (void)drawInMTKView:(nonnull MTKView *)view {
-    [_renderer draw: view];
+    [_renderer draw:view];
 }
 
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size {
-
+    
 }
 
 @end
